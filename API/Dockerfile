@@ -5,7 +5,7 @@ FROM python:2.7-slim
 WORKDIR /API
 
 # Install any needed packages specified in requirements.txt
-ADD requirements.txt /newman-image-service
+ADD requirements.txt /API
 RUN pip install -r requirements.txt
 
 RUN mkdir -p /images/uploads
