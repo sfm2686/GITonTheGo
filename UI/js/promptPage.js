@@ -86,6 +86,5 @@ function frameworkPop() {
 
 function submitted() {
 	// flask api calls happen here
-	window.location.href = "/shellPage.html";
-	window.alert("redirected")
+	window.location.href = "file:///Users/muro/Documents/Projects/GITonTheGo/UI/shellPage.html";
 }
