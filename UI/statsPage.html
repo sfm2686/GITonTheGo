@@ -12,19 +12,49 @@
   <body>
   	<!-- container -->
   	<div class="container">
-  		<p>Percentage of users commits</p>
+  		<h4>Percentage of users commits</h4>
+
+      <table class="table table-striped table-bordered table-hover table-condensed" id="stat1Table">
+        <tr>
+          <th>User</th>
+          <th>Percentage</th>
+        </tr>
+      </table>
 
       <hr>
 
-      <p>Percentage of days of commits</p>
+      <h4>Percentage of days of commits</h4>
+
+      <table class="table table-striped table-bordered table-hover table-condensed" id="stat1Table">
+        <tr>
+          <th>Day</th>
+          <th>Percentage</th>
+        </tr>
+      </table>
 
       <hr>
 
-      <p>Percentage of changes in files</p>
+      <h4>Percentage of changes in files</h4>
+
+      <table class="table table-striped table-bordered table-hover table-condensed" id="stat1Table">
+        <tr>
+          <th>File</th>
+          <th>Percentage</th>
+        </tr>
+      </table>
 
       <hr>
 
-      <p>Top 10 most common words in commit messages</p>
+      <h4>Top 10 most common words in commit messages</h4>
+
+      <table class="table table-striped table-bordered table-hover table-condensed" id="stat1Table">
+        <tr>
+          <th>#</th>
+          <th>Word</th>
+        </tr>
+      </table>
+
+      <button class="btn btn-default" id="statsButton" onClick="stats()">Go back to shell</button>
   	</div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
