@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Git on The Go</title>
+    <script src="js/promptPage.js"></script>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+
+  	<!-- jumbotron weclome -->
+  	<div class="jumbotron text-center">
+  		<div class="container">
+  			<h1>Git on The Go</h1>
+  			A cloud application that enables you to modify, view and update your GIT reprositories without installing a single thing on your local machine. 
+  			This application is ideal for command line applications</p>
+  		</div>
+  	</div>
+
+  	<form>
+	  	<!-- container -->
+	  	<div class="container">
+
+		  	<!-- dependencies -->
+	  		<div class="row">
+		  		<h2 class="text-center">Please select/enter your dependencies</h2>
+
+	  			<!-- language -->
+		  		<div class="form-group col-md-4">
+		  			<label>Language</label>
+		  			<select class="form-control" id="lang" onChange="versionPop(); frameworkPop();" required>
+		  				<option value="N/A">N/A</option>
+		  				<option value="Python">Python</option>
+		  				<option value="Ruby">Ruby</option>
+		  			</select>
+		  		</div>
+
+		  		 <!-- language version -->
+		  		<div class="form-group col-md-4">
+		  			<label>Version</label>
+		  			<select class="form-control" id="version">
+		  			</select>
+		  		</div>
+
+			  	<!-- framework -->
+		  		<div class="form-group col-md-4">
+		  			<label>Framework</label>
+		  			<select class="form-control" id="framework">
+		  			</select>
+		  		</div>
+
+	      	</div>
+
+	  		<!-- external libraries -->
+	  		<div class="form-group">
+	  			<label>Any external libraries links (Optional)</label>
+	  			<input type="text" class="form-control" placeholder="Library link">
+	  		</div>
+
+	  		<hr>
+
+	  		<div class="form-group">
+		  		<!-- git repo link -->
+				<label>The link of the reprository you wish to work on</label>
+		  		<input type="text" class="form-control" placeholder="reprository link" required>
+		  	</div>
+
+	  		<button type="submit" class="btn btn-primary" id="submitButton" onClick="submitted()" href="shellPage.html">Submit</button>
+
+	  	</div>
+  	</form>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>
