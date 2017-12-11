@@ -1,8 +1,5 @@
 // Lang versions //
 
-// Java versions
-var javaVersions = ["Java 8", "Java 7"];
-
 // Python versions
 var pythonVersions = ["Python 3", "Python 2"];
 
@@ -11,9 +8,6 @@ var rubyVersions = ["Ruby 2", "Ruby 1"];
 
 
 // Lang frameworks //
-
-// Java frameworks
-var javaFrameworks = ["Spark", "Vaadin"]
 
 // Python frameworks
 var pythonFrameworks = ["Flask", "Djnago"]
@@ -28,12 +22,10 @@ var frameworkMap = new Object();
 
 // populating version and framework maps
 versionMap["N/A"] = [];
-versionMap["Java"] = javaVersions;
 versionMap["Python"] = pythonVersions;
 versionMap["Ruby"] = rubyVersions;
 
 frameworkMap["N/A"] = [];
-frameworkMap["Java"] = javaFrameworks;
 frameworkMap["Python"] = pythonFrameworks;
 frameworkMap["Ruby"] = rubyFrameworks;
 
@@ -70,10 +62,6 @@ function frameworkPop() {
 
 	frSelect.options.length = 0;
 
-	var newOption = document.createElement("option");
-	newOption.textContent = "N/A";
-	newOption.value = "N/A";
-	frSelect.appendChild(newOption);
 
 	for (var i = 0; i < frArray.length; i ++) {
 		var optionText = frArray[i];
@@ -86,5 +74,8 @@ function frameworkPop() {
 
 function submitted() {
 	// flask api calls happen here
-	window.location.href = "file:///Users/muro/Documents/Projects/GITonTheGo/UI/shellPage.html";
+}
+
+function tryit() {
+	// flask api calls happen here
 }
