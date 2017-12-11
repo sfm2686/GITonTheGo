@@ -5,6 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Git on The Go</title>
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
     <script src="js/promptPage.js"></script>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -42,6 +45,7 @@
 		  		<div class="form-group col-md-4">
 		  			<label>Version</label>
 		  			<select class="form-control" id="version">
+		  				<option value="-">-</option>
 		  			</select>
 		  		</div>
 
@@ -49,6 +53,7 @@
 		  		<div class="form-group col-md-4">
 		  			<label>Framework</label>
 		  			<select class="form-control" id="framework">
+		  				<option value="-">-</option>
 		  			</select>
 		  		</div>
 
@@ -57,7 +62,7 @@
 	  		<!-- external libraries -->
 	  		<div class="form-group">
 	  			<label>Any external libraries link/s (comma separated)</label>
-	  			<input type="text" class="form-control" placeholder="Library link">
+	  			<input type="text" class="form-control" placeholder="Library link" id="libraries">
 	  		</div>
 
 	  		<hr>
@@ -65,10 +70,11 @@
 	  		<div class="form-group">
 		  		<!-- git repo link -->
 				<label>The link of the reprository you wish to work on</label>
-		  		<input type="text" class="form-control" placeholder="reprository link" required>
+		  		<input type="text" class="form-control" placeholder="reprository link" id="repoLink" required>
 		  	</div>
 
 	  		<a type="submit" class="btn btn-primary" id="submitButton" onClick="submitted()" href="shellPage.html">Submit</a>
+	  		<!-- <a type="submit" class="btn btn-primary" id="submitButton" onClick="submitted()">Submit</a> -->
 
 			<a class="btn btn-default" id="testButton" onClick="tryit()" href="shellPage.html">Try it!</a>
 

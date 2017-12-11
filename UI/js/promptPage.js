@@ -21,11 +21,11 @@ var versionMap = new Object();
 var frameworkMap = new Object();
 
 // populating version and framework maps
-versionMap["N/A"] = [];
+versionMap["N/A"] = ["-"];
 versionMap["Python"] = pythonVersions;
 versionMap["Ruby"] = rubyVersions;
 
-frameworkMap["N/A"] = [];
+frameworkMap["N/A"] = ["-"];
 frameworkMap["Python"] = pythonFrameworks;
 frameworkMap["Ruby"] = rubyFrameworks;
 
@@ -73,7 +73,26 @@ function frameworkPop() {
 }
 
 function submitted() {
-	// flask api calls happen here
+	// TODO - add code for failure
+	var data = {};
+	data["language"] = document.getElementById("lang").options[document.getElementById("lang").selectedIndex].value;
+	data["version"] = document.getElementById("version").options[document.getElementById("version").selectedIndex].value;
+	data["framework"] = document.getElementById("framework").options[document.getElementById("framework").selectedIndex].value;
+	data["libraries"] = document.getElementById("libraries").value.split(',');
+	data["repoLink"] = document.getElementById("repoLink").value;
+
+	$.ajax({
+		url: "http://127.0.0.1:5000/api/v1/init/dockerfile",
+		data: JSON.stringify(data),
+		contentType: 'application/json',
+		type: 'POST',
+		success: function() {
+			console.log("success");
+		},
+		error: function() {
+			console.log("error");
+		}
+	});
 }
 
 function tryit() {

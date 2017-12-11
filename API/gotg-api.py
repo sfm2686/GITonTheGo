@@ -2,7 +2,8 @@ import os
 import socket
 import clamd
 import uuid
-from flask import Flask, request, redirect, url_for
+import logging
+from flask import Flask, request, redirect, url_for, jsonify
 from redis import Redis, RedisError
 from werkzeug.utils import secure_filename
 
@@ -33,3 +34,21 @@ def response(status,code,data,message):
 def init_user():
 	return response('Success', 200, None, 'Successful request for nothing!')
 
+# [GET] Homepage
+# @params json data
+# @return - Succes: valid data || Fail: invalid data
+@app.route(VERSION + '/init/dockerfile', methods=['POST'])
+def init_dockerfile():
+	# TODO - determine if clean enough for dockerfile
+	
+	# JSON object to be used for dockerfile
+	data = request.json
+	# Cleaning json object
+	if data["language"] == "N/A":
+		data["language"] = ""
+	if data["version"] == "-":
+		data["version"] = ""
+	if data["framework"] == "-":
+		data["framework"] = ""
+
+	return response('Success', 200, None, 'Successful submission of data for dockerfile!')
