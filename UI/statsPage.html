@@ -5,6 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Git on The Go Statistics</title>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
     <script src="js/statsPage.js"></script>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -12,9 +15,9 @@
   <body>
   	<!-- container -->
   	<div class="container">
-  		<h4>Percentage of users commits</h4>
+  		<h4>Percentage of users commits (top 10)</h4>
 
-      <table class="table table-striped table-bordered table-hover table-condensed" id="stat1Table">
+      <table class="table table-striped table-bordered table-hover table-condensed" id="stat0Table">
         <tr>
           <th>User</th>
           <th>Percentage</th>
@@ -34,12 +37,12 @@
 
       <hr>
 
-      <h4>Percentage of changes in files</h4>
+      <h4>Percentage of top commit times (top 10)</h4>
 
-      <table class="table table-striped table-bordered table-hover table-condensed" id="stat1Table">
+      <table class="table table-striped table-bordered table-hover table-condensed" id="stat2Table">
         <tr>
-          <th>#</th>
-          <th>File</th>
+          <th>Hour (military)</th>
+          <th>Percentage</th>
         </tr>
       </table>
 
@@ -47,7 +50,7 @@
 
       <h4>Top 10 most common words in commit messages</h4>
 
-      <table class="table table-striped table-bordered table-hover table-condensed" id="stat1Table">
+      <table class="table table-striped table-bordered table-hover table-condensed" id="stat3Table">
         <tr>
           <th>#</th>
           <th>Word</th>
