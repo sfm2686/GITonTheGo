@@ -63,9 +63,9 @@ def init_dockerfile():
 def git_stats():
 	# Making a dict and storing the results in
 	stats = {}
-	stats["table0"] = parseGitLog("git-log2.txt", 'Author', userPercentageParser)
-	stats["table1"] = parseGitLog("git-log2.txt", 'Date:   ', dayPercentageParser)
-	stats["table2"] = parseGitLog("git-log2.txt", 'Date:   ', timePercentageParser)
+	stats["table0"] = parseGitLog("git-log.txt", 'Author', userPercentageParser)
+	stats["table1"] = parseGitLog("git-log.txt", 'Date:   ', dayPercentageParser)
+	stats["table2"] = parseGitLog("git-log.txt", 'Date:   ', timePercentageParser)
 	stats["table3"] = commitWord()
 
 	# Returning a response with the data as the body
@@ -103,8 +103,8 @@ def parseGitLog(file, stringInLine, method):
 	# Doing the calculations to get the percentage based on the
 	# total number
 	result = {}
-	for thing in reduceCount:
-		result[thing] = round(((reduceCount[thing]/len(allCount)) * 100), 2)
+	for thing in dict(Counter(reduceCount).most_common(10)):
+		result[thing.replace("<", "(").replace(">", ")")] = round(((reduceCount[thing]/len(allCount)) * 100), 2)
 
 	# Closing the file and returning the results dict
 	file.close()
@@ -126,7 +126,7 @@ def timePercentageParser(line):
 # This method gathers all of the commit messages and counts the top 10
 # most common ones
 def commitWord():
-	file = open("git-log2.txt", "r")
+	file = open("git-log.txt", "r")
 
 	# Making an array to store all single words in the git messages
 	proc = False
@@ -140,18 +140,17 @@ def commitWord():
 		# Marking the end of processing and setting it to false
 		elif line.startswith("commit"):
 			proc = False
+			continue
 		# Processing the data to get alpha strings only
 		if proc:
 			words.extend(re.split("[^a-zA-Z]", line))
-
-	# Removing all empty strings
-	while '' in words:
-		words.remove('')
 
 	# Making a dict for each word and its occurrences and counting the words
 	wordsDict = {}
 
 	for word in words:
+		if word == ' ' or word == '':
+			continue
 		if word in wordsDict:
 			wordsDict[word] += 1
 		else:
