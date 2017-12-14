@@ -87,7 +87,7 @@ function submitted() {
 	data["repoLink"] = document.getElementById("repoLink").value;
 
 	$.ajax({
-		url: "http://127.0.0.1:5000/api/v1/init/dockerfile",
+		url: "http://127.0.0.1:5000/api/v1/init",
 		data: JSON.stringify(data),
 		contentType: 'application/json',
 		type: 'POST',
