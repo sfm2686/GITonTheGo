@@ -1,0 +1,119 @@
+commit c5e1cef780fe76747692e9917d3d183f09bc5cc9
+Author: Sultan Mira <muro@acd4122904532376863222.wireless.rit.edu>
+Date:   Mon Dec 11 18:12:39 2017 -0500
+
+    Did api-endpoint in flask and ajax class in js file, dockerfile method/homepage should be set with small todos in the api to make the dockerfile.
+
+commit 3a8a084c5c58be9968abfd02947b1164f2f0203c
+Author: Sultan Mira <muro@Sultans-MacBook-Pro.local>
+Date:   Sun Dec 10 22:14:55 2017 -0500
+
+    Got rid of java from the homepage, and made the page redirections in the html instead of the js.
+
+commit 1ee9cb11e974a67398f35f56013a22140da45917
+Author: Sultan Mira <muro@Sultans-MacBook-Pro.local>
+Date:   Sun Dec 10 22:01:55 2017 -0500
+
+    Added try it button to homepage.
+
+commit 5687d4b8966fdaf5158524b928014fe07cfe027d
+Merge: d84a24b ad0e979
+Author: sfm2686 <sfm2686@g.rit.edu>
+Date:   Sun Dec 10 18:22:02 2017 -0500
+
+    Merge pull request #1 from sfm2686/ui
+    
+    Ui
+
+commit ad0e9790d429762edcf63db0629cf9b08a92c0a7
+Author: Sultan Mira <muro@acd4122904532376863222.wireless.rit.edu>
+Date:   Sun Dec 10 18:19:32 2017 -0500
+
+    Added the shell to the ui branch.
+
+commit 53354953a9c6c617a12e04c09a19f08408f3dc7a
+Author: Sultan Mira <muro@acd4122904532376863222.wireless.rit.edu>
+Date:   Sun Dec 10 18:09:43 2017 -0500
+
+    UI should be ready to go, still need to work on html page redirections.
+
+commit dcda0844381157bd02b251d00229f7eea80505d5
+Author: Sultan Mira <muro@Sultans-MacBook-Pro.local>
+Date:   Tue Dec 5 22:26:29 2017 -0500
+
+    Added some space at the end for when the page is fully populated.
+
+commit 30b8d48f68e44955eb6db52db9fb152e030d5c11
+Author: Sultan Mira <muro@Sultans-MacBook-Pro.local>
+Date:   Tue Dec 5 22:25:20 2017 -0500
+
+    Fixed some wording on the stats page.
+
+commit d04eb2ffdfe273a71f240b93c4b8681ace444eb7
+Author: Sultan Mira <muro@Sultans-MacBook-Pro.local>
+Date:   Tue Dec 5 22:04:13 2017 -0500
+
+    Stats page should be ready.
+
+commit ee85401f0de6e152dfa6e466c736eb241a4d415c
+Author: Sultan Mira <muro@Sultans-MacBook-Pro.local>
+Date:   Tue Dec 5 21:57:21 2017 -0500
+
+    Made all pages, will make empty tables for the stats page, still need to do redirection.
+
+commit a37c29c1a357199bee4febd4c19e53b23bdc884c
+Author: Sultan Mira <muro@Sultans-MacBook-Pro.local>
+Date:   Tue Dec 5 21:29:30 2017 -0500
+
+    homepage should be compelte, will now work on shell and stats pages.
+
+commit dc75bd0d41c147a336d04ad124267eb1d0acad8f
+Author: Sultan Mira <muro@acd4122904532376863222.wireless.rit.edu>
+Date:   Mon Dec 4 20:40:11 2017 -0500
+
+    Added bootstrap and html is finished for the first page, started working on the second page.
+
+commit d84a24be2c14876961d893cdd03ca53393c860f8
+Author: RYAN SWITZER <rjs4244@rit.edu>
+Date:   Mon Dec 4 15:26:50 2017 -0500
+
+    Updated console size
+
+commit 9c16f370797f582016e3c9d166fe1a3bd1d590a4
+Merge: 9362ba0 575dd81
+Author: RYAN SWITZER <rjs4244@rit.edu>
+Date:   Mon Dec 4 15:23:47 2017 -0500
+
+    Merge branch 'master' of https://github.com/sfm2686/GITonTheGo
+
+commit 9362ba0348f6340c7bf7c7a9cf9c8c472cdb7eda
+Author: RYAN SWITZER <rjs4244@rit.edu>
+Date:   Mon Dec 4 15:23:18 2017 -0500
+
+    Added JOSH components
+
+commit 575dd81deb326e7e27f27761e47b6ff887f116eb
+Author: Ryan Switzer <rjs4244@rit.edu>
+Date:   Fri Dec 1 15:24:38 2017 -0500
+
+    Update Dockerfile
+    
+    fixed dockerfile
+
+commit 02d6d0f6b0b5332d54ae1831d8067f497fc416d2
+Author: RYAN SWITZER <rjs4244@rit.edu>
+Date:   Fri Dec 1 15:22:39 2017 -0500
+
+    Initial commit containing docker components
+
+commit 1a4283550ba3c12e52a885532113cbbbe0b80897
+Author: Muro <sfm2686@g.rit.edu>
+Date:   Fri Oct 27 17:36:56 2017 -0400
+
+    Made directories for UI and API
+
+commit 7e35158a1dc05e8c71caf6a6b9c1ef9b0c23f53b
+Author: sfm2686 <sfm2686@g.rit.edu>
+Date:   Sun Oct 22 18:22:59 2017 -0400
+
+    Initial commit
