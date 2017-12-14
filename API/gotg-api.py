@@ -37,23 +37,61 @@ def response(status,code,data,message):
 ## API Endpoints
 ###########################################
 # [POST] Initialize pull repo
-# @params - lanuage, framework, libraries
+# @params - lanuage, framework, libraries as json
 # @return - Success: Container Initialized -> True | Fail: Failrue -> False
-@app.route(VERSION + '/init/repo', methods=['POST'])
+@app.route(VERSION + '/init', methods=['POST'])
 def init_repo():
-    return response('Success', 200, None,)
+    # JSON object to be used for dockerfile
+	data = request.json
+	# Cleaning json object
+	if data["language"] == "N/A":
+		data["language"] = ""
+	if data["version"] == "-":
+		data["version"] = ""
+	if data["framework"] == "-":
+		data["framework"] = ""
+		
+    return response('Success', 200, None, 'Project initialized')
     #TODO
     # 1. Create Dockerfile + requirements.txt
     # 2. write to requirements.txt
     # 3. Download repo
     # 4. Init fake filesystem
+
+
+# [GET] Build the project in the docker container
+# @params - execute flag
+# @return - Success: TBD || Fail: Build / execution errors
+@app.route(VERSION + '/build', methods=['GET'])
+def build_docker():
+    if request.args.get('execute') == '':
+        return response('Bad Request', 400, None, 'Execution specifier required')
+    run = request.args.get('execute')
+    if run:
+        return response('Success', 200, None, 'Project built and ran successfully with 0 warnings and 0 errors')
+    else:
+        return response('Success', 200, None, 'Project built successfully with 0 warnings and 0 errors')
+    #TODO
+    # 1. Command/request to build container
+    # 2. Retrieve warnings and errors
     
+
+# [GET] Pull the project repo
+# @params - the repo link, owner, etc (TBD)
+# @return - Success: true || Fail: false
+@app.route(VERSION + '/git/repo/pull', methods=['GET'])
+def git_pull():
+    #TODO
+    # 1. LOTS (need to determine course of action)
+    return response('Success', 200, None, 'Git project successfuly pulled')
+
 	
 # [POST] Git commit
+# (This functionality shall be mocked out due to lack of text editing capabilities)
 # @params - the commit message
 # @return - Success: 'Some  mesage' | Fail: 'Failed to commit'
 @app.route(VERSION + '/git/repo/commit', methods=['POST'])
-def commit_code():
+def git_commit():
     if request.args.get('message') == '':
         return response('Bad Request', 400, None, 'None commit message provided')
     else:
@@ -64,24 +102,17 @@ def commit_code():
         else:
             return response('Internal Servver Error', 500, None, 'Failed to commit git repo')
 
-# [GET] Homepage
-# @params json data
-# @return - Succes: valid data || Fail: invalid data
-@app.route(VERSION + '/init/dockerfile', methods=['POST'])
-def init_dockerfile():
-	# TODO - determine if clean enough for dockerfile
 
-	# JSON object to be used for dockerfile
-	data = request.json
-	# Cleaning json object
-	if data["language"] == "N/A":
-		data["language"] = ""
-	if data["version"] == "-":
-		data["version"] = ""
-	if data["framework"] == "-":
-		data["framework"] = ""
-
-	return response('Success', 200, None, 'Successful submission of data for dockerfile!')
+# [GET] Git push
+# (This functionality shall be mocked out due to lack of text editing capabilities)
+# @params - branch name
+# @return - Success: true || Fail: false
+@app.route(VERSION + '/git/repo/push', methods=['POST'])
+def git_push():
+    #TODO
+    # 1. Mock out functionality?
+    return response('Success', 200, None, 'Project successfully pushed')
+    
 
 # [GET] Stats
 # @return - Succes: valid data processed || Fail: invalid data processed
