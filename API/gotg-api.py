@@ -10,12 +10,17 @@ from collections import Counter
 from flask import Flask, request, redirect, url_for, jsonify
 # from redis import Redis, RedisError
 from werkzeug.utils import secure_filename
+from urlparse import urlparse
 
 
 ###########################################
 ## Global components and varibales
 ###########################################
 VERSION = '/api/v1'
+GIT_HUB = 'https://api.github.com'
+REPO = 'OpenNl2' #TODO - REMOVE?
+OWNER = 'rjswitzer3'
+TOKEN = 'iuwevbuiwenviuoqwrnqviuowqr831093289328932'
 app = Flask(__name__)
 
 ###########################################
@@ -31,21 +36,12 @@ def response(status,code,data,message):
 ###########################################
 ## API Endpoints
 ###########################################
-# [GET] Login 
-# @params credentials
-# @return - Succes: TBD || Fail: TBD
-@app.route(VERSION + '/init/user', methods=['GET'])
-def init_user():
-	return response('Success', 200, None, 'Successful request for nothing!')
-
-# [GET] Homepage
-# @params json data
-# @return - Succes: valid data || Fail: invalid data
-@app.route(VERSION + '/init/dockerfile', methods=['POST'])
-def init_dockerfile():
-	# TODO - determine if clean enough for dockerfile
-
-	# JSON object to be used for dockerfile
+# [POST] Initialize pull repo
+# @params - lanuage, framework, libraries as json
+# @return - Success: Container Initialized -> True | Fail: Failrue -> False
+@app.route(VERSION + '/init', methods=['POST'])
+def init_repo():
+    # JSON object to be used for dockerfile
 	data = request.json
 	# Cleaning json object
 	if data["language"] == "N/A":
@@ -54,10 +50,71 @@ def init_dockerfile():
 		data["version"] = ""
 	if data["framework"] == "-":
 		data["framework"] = ""
+		
+    return response('Success', 200, None, 'Project initialized')
+    #TODO
+    # 1. Create Dockerfile + requirements.txt
+    # 2. write to requirements.txt
+    # 3. Download repo
+    # 4. Init fake filesystem
 
-	return response('Success', 200, None, 'Successful submission of data for dockerfile!')
 
-# [GET] Stats 
+# [GET] Build the project in the docker container
+# @params - execute flag
+# @return - Success: TBD || Fail: Build / execution errors
+@app.route(VERSION + '/build', methods=['GET'])
+def build_docker():
+    if request.args.get('execute') == '':
+        return response('Bad Request', 400, None, 'Execution specifier required')
+    run = request.args.get('execute')
+    if run:
+        return response('Success', 200, None, 'Project built and ran successfully with 0 warnings and 0 errors')
+    else:
+        return response('Success', 200, None, 'Project built successfully with 0 warnings and 0 errors')
+    #TODO
+    # 1. Command/request to build container
+    # 2. Retrieve warnings and errors
+    
+
+# [GET] Pull the project repo
+# @params - the repo link, owner, etc (TBD)
+# @return - Success: true || Fail: false
+@app.route(VERSION + '/git/repo/pull', methods=['GET'])
+def git_pull():
+    #TODO
+    # 1. LOTS (need to determine course of action)
+    return response('Success', 200, None, 'Git project successfuly pulled')
+
+	
+# [POST] Git commit
+# (This functionality shall be mocked out due to lack of text editing capabilities)
+# @params - the commit message
+# @return - Success: 'Some  mesage' | Fail: 'Failed to commit'
+@app.route(VERSION + '/git/repo/commit', methods=['POST'])
+def git_commit():
+    if request.args.get('message') == '':
+        return response('Bad Request', 400, None, 'None commit message provided')
+    else:
+        #TODO: python url builder + correct git request
+        url = GIT_HUB+'/repos/'+OWNER+'/'+REPO+'/git/commits/'+TOKEN
+        if requests.post(url, jsonify(message)):
+            return response('Success', 200, None, 'Successful commity with message = ' + message)
+        else:
+            return response('Internal Servver Error', 500, None, 'Failed to commit git repo')
+
+
+# [GET] Git push
+# (This functionality shall be mocked out due to lack of text editing capabilities)
+# @params - branch name
+# @return - Success: true || Fail: false
+@app.route(VERSION + '/git/repo/push', methods=['POST'])
+def git_push():
+    #TODO
+    # 1. Mock out functionality?
+    return response('Success', 200, None, 'Project successfully pushed')
+    
+
+# [GET] Stats
 # @return - Succes: valid data processed || Fail: invalid data processed
 @app.route(VERSION + '/git/stats', methods=['GET'])
 def git_stats():
