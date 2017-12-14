@@ -39,7 +39,7 @@
 
     // Finally, create the `Shell`.
     var shell = Josh.Shell({readline: readline, history: history, console: _console});
-
+    var url = "ec2....com/api/v1/"
 
     // Create *killring* command
     // -------------------------
@@ -50,89 +50,143 @@
     // Create a the command `killring` which will display all text currently in the `KillRing`, by attaching
     // a handler to the `Shell`.
     shell.setCommandHandler("killring", {
-
       // We don't implement any completion for the `killring` command, so we only provide an `exec` handler, and no `completion` handler.
       exec: function(cmd, args, callback) {
-
         // `killring` takes one optional argument **-c** which clears the killring (just like **history -c**).
         if(args[0] == "-c") {
           killring.clear();
-
           // The callback of an `exec` handler expects the html to display as result of executing the command. Clearing the
           // killing has no output, so we just call the callback and exit the handler.
           callback();
           return;
         }
-
         // Return the output of feeding all items from the killring into our template.
         callback(killringItemTemplate({items: killring.items()}));
       }
     });
 	
-	shell.setCommandHandler("hello", {
-		exec: function(cmd, args, callback) {
-			//alert('EXECUTING');
-			var arg = args[0] || '';
-			var response = "who is this " + arg + " you are talking to?";
-			if(arg === 'josh') {
-				response = 'pleased to meet you.';
-			} else if(arg === 'world') {
-				response = 'world says hi.'
-			} else if(!arg) {
-				response = 'who are you saying hello to?';
-			}
-			callback(response);
-		},
-		completion: function(cmd, arg, line, callback) {
-			//alert('COMPLETION');
-			callback(shell.bestMatch(arg, ['world', 'josh']))
-		}
-	});
-	
-	shell.setCommandHandler("build", {
-		exec: function(cmd, args, callback) {
-			var arg = args[0] || '';
-			var response = "No project to build";
-			if(arg == '-x'){
-			  response = "No project to build and execute";
-			}
-			callback(response);
-		},
-		completion: function(cmd, arg, line, callback) {
-			callback(shell.bestMatch(arg, ['-x']))
-		}
-	});
-	
-	shell.setCommandHandler("stop", {
-		exec: function(cmd, args, callback) {
-			var arg = args[0] || '';
-			var response = "No project builds started";
-			callback(response);
-		},
-		completion: function(cmd, arg, line, callback) {
-			callback(shell.bestMatch(arg, ['-x']))
-		}
-	});
-	
-	shell.setCommandHandler("git", {
-		exec: function(cmd, args, callback) {
-			var arg = args[0] || '';
-			var response = "who is this " + arg + " you are talking to?";
-			if(arg === 'pull') {
-				response = 'Nothing to pull';
-			} else if(arg === 'push') {
-				response = 'Nothing to push.'
-			} else if(arg === 'commit') {
-				response = 'Nothing to commit'
-			} else if(!arg) {
-				response = 'Git v2.15.1';
-			}
-			callback(response);
-		},
-		completion: function(cmd, arg, line, callback) {
-			callback(shell.bestMatch(arg, ['pull', 'push', 'commit']))
-		}
-	});
+  	shell.setCommandHandler("hello", {
+  		exec: function(cmd, args, callback) {
+  			//alert('EXECUTING');
+  			var arg = args[0] || '';
+  			var response = "who is this " + arg + " you are talking to?";
+  			if(arg === 'josh') {
+  				response = 'pleased to meet you.';
+  			} else if(arg === 'world') {
+  				response = 'world says hi.'
+  			} else if(!arg) {
+  				response = 'who are you saying hello to?';
+  			}
+  			callback(response);
+  		},
+  		completion: function(cmd, arg, line, callback) {
+  			//alert('COMPLETION');
+  			callback(shell.bestMatch(arg, ['world', 'josh']))
+  		}
+  	});
+  	
+  	shell.setCommandHandler("build", {
+  		exec: function(cmd, args, callback) {
+  			var arg = args[0] || '';
+  			var uri = '/build';
+  			var data;
+  			var response = "No project to build";
+  			if(arg == '-x'){
+  			  data = { 'execute' : true };
+  			  response = getRequest(data,url+uri);
+  			}else{
+  			  data = { 'execute' : false };
+  			  response = getRequest(data,url+uri);
+  			}
+  			callback(response);
+  		},
+  		completion: function(cmd, arg, line, callback) {
+  			callback(shell.bestMatch(arg, ['-x']))
+  		}
+  	});
+  	
+  	/*shell.setCommandHandler("stop", {
+  		exec: function(cmd, args, callback) {
+  			var arg = args[0] || '';
+  			var response = "No project builds started";
+  			callback(response);
+  		},
+  		completion: function(cmd, arg, line, callback) {
+  			callback(shell.bestMatch(arg, ['-x']))
+  		}
+  	});*/
+  	
+  	shell.setCommandHandler("git", {
+  		exec: function(cmd, args, callback) {
+  			var arg = args[0] || '';
+  			console.log(args);
+  			var uri = '/git/repo/';
+  			var response = "Git v2.15.1";
+  			var data;
+  			if(arg === 'pull') {
+  			  data = { 'link' : "https://github.com/rails/rails"}; //The repo link should be stashed somewhere
+  				response = getRequest(data,url+uri+arg);
+  			} else if(arg === 'push') {
+  			  data = { 'branch' : "master"}; //branch should be arg
+  				response = postReuqest(data,url+uri+arg);
+  			} else if(arg === 'commit') {
+  			  data = { 'message' : "Updated source code"};
+  				response = postRequest(data, url+uri+arg);
+  			}
+  			callback(response);
+  		},
+  		completion: function(cmd, arg, line, callback) {
+  			callback(shell.bestMatch(arg, ['pull', 'push', 'commit']))
+  		}
+  	});
+  	
+  	function postRequest(responseData,slug){
+      $.ajax({
+        url: slug,
+        type: 'POST',
+        contentType: 'application/json;charset=UTF-8',
+        dataType: 'json',
+        data: JSON.stringify(responseData),
+        success: function(response){
+          console.log(response);
+          return response.message;
+        },
+        error: function(xhr,error){
+          console.log("Error - "+xhr.responseText);
+          return xhr.responseText;
+        },
+        complete: function(){
+          $('.loader').remove();
+          console.log("Complete");
+        },
+        processData: false
+       
+      });
+    }
+    
+    function getRequest(responseData,slug){
+      $.ajax({
+        url: slug,
+        type: 'GET',
+        contentType: 'application/json;charset=UTF-8',
+        dataType: 'json',
+        data: JSON.stringify(responseData),
+        success: function(response){
+          console.log(response);
+          return response.message;
+        },
+        error: function(xhr,error){
+          console.log("Error - "+xhr.responseText);
+          return xhr.responseText;
+        },
+        complete: function(){
+          $('.loader').remove();
+          console.log("Complete");
+        },
+        processData: false
+       
+      });
+    }
 
     // Setup PathHandler
     // -----------------
