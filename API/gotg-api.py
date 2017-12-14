@@ -61,110 +61,94 @@ def init_dockerfile():
 # @return - Succes: valid data processed || Fail: invalid data processed
 @app.route(VERSION + '/git/stats', methods=['GET'])
 def git_stats():
+	# Making a dict and storing the results in
 	stats = {}
-	stats["table0"] = userPercentage()
-	stats["table1"] = dayPercentage()
-	stats["table2"] = timePercentage()
+	stats["table0"] = parseGitLog("git-log2.txt", 'Author', userPercentageParser)
+	stats["table1"] = parseGitLog("git-log2.txt", 'Date:   ', dayPercentageParser)
+	stats["table2"] = parseGitLog("git-log2.txt", 'Date:   ', timePercentageParser)
 	stats["table3"] = commitWord()
-	# TODO - most common commit word
 
-	# return response('Success', 200, jsonify(stats), 'Successful stats processed')
-	return jsonify(stats)
+	# Returning a response with the data as the body
+	return response('Success', 200, stats, 'Successful stats processed')
 
 ###########################################
 ## STATS PROCESSING METHODS
 ###########################################
-def userPercentage():
-	file = open("git-log2.txt", "r")
 
-	authors = []
+# This is a generic method to do the processing of the first three stats tables
+# from the git log since they are all percentages
+#
+# file: the git-log file
+# stringInLine: the string identifying the line to be parsed
+# method: the method to parse the line, each table has a different one
+def parseGitLog(file, stringInLine, method):
+	file = open(file, "r")
+
+	# Making an array to count all occurrences and counting them in the loop
+	allCount = []
 
 	for line in file:
-		if 'Author' in line:
-			authors.append(line[8:])
+		if stringInLine in line:
+			allCount.append(method(line))
 
-	authorsDict = {}
+	# A dict to reduce all occurrences to one key
+	reduceCount = {}
 
-	for author in authors:
-		if author in authorsDict:
-			authorsDict[author] += 1
+	for thing in allCount:
+		if thing in reduceCount:
+			reduceCount[thing] += 1
 		else:
-			authorsDict[author] = 1
+			reduceCount[thing] = 1
 
+	# Doing the calculations to get the percentage based on the
+	# total number
 	result = {}
+	for thing in reduceCount:
+		result[thing] = round(((reduceCount[thing]/len(allCount)) * 100), 2)
 
-	for author in dict(Counter(authorsDict).most_common(10)):
-		result[author] = round(((authorsDict[author]/len(authors)) * 100), 2)
-
-	app.logger.info(result)
+	# Closing the file and returning the results dict
+	file.close()
 
 	return result
 
-def dayPercentage():
-	file = open("git-log2.txt", "r")
+# This method parses a line in the git log to the author name and email
+def userPercentageParser(line):
+	return line[8:]
 
-	days = []
+# This method parses a line in the git log to the get the day of the commit
+def dayPercentageParser(line):
+	return line[8:11]
 
-	for line in file:
-		if 'Date:   ' in line:
-			days.append(line[8:11])
+# This method parses a line in the git log to get the time
+def timePercentageParser(line):
+	return line[19:21].replace(":", "")
 
-	daysDict = {}
-
-	for day in days:
-		if day in daysDict:
-			daysDict[day] += 1
-		else:
-			daysDict[day] = 1
-
-	result = {}
-	for day in daysDict:
-		result[day] = round(((daysDict[day]/len(days)) * 100), 2)
-
-	return result
-
-def timePercentage():
-	file = open("git-log.txt", "r")
-
-	times = []
-
-	for line in file:
-		if 'Date:   ' in line:
-			times.append(line[19:21].replace(":", ""))
-
-	timesDict = {}
-
-	for time in times:
-		if time in timesDict:
-			timesDict[time] += 1
-		else:
-			timesDict[time] = 1
-
-	result = {}
-
-	for time in dict(Counter(timesDict).most_common(10)):
-		result[time] = round(((timesDict[time]/len(times)) * 100), 2)
-
-	return result
-
+# This method gathers all of the commit messages and counts the top 10
+# most common ones
 def commitWord():
 	file = open("git-log2.txt", "r")
 
+	# Making an array to store all single words in the git messages
 	proc = False
 	words = []
 
 	for line in file:
+		# Marking the start of processing to set it to true
 		if line.startswith("Date:   "):
 			proc = True
 			continue
+		# Marking the end of processing and setting it to false
 		elif line.startswith("commit"):
 			proc = False
+		# Processing the data to get alpha strings only
 		if proc:
 			words.extend(re.split("[^a-zA-Z]", line))
 
+	# Removing all empty strings
 	while '' in words:
 		words.remove('')
 
+	# Making a dict for each word and its occurrences and counting the words
 	wordsDict = {}
 
 	for word in words:
@@ -173,9 +157,7 @@ def commitWord():
 		else:
 			wordsDict[word] = 1
 
-	result = {}
+	# Closing the file and returning the results
+	file.close()
 
-	for word in dict(Counter(wordsDict).most_common(10)):
-		result[word] = round(((wordsDict[word]/len(words)) * 100), 2)
-
-	return result
+	return dict(Counter(wordsDict).most_common(10))
