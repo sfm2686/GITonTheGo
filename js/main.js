@@ -46,7 +46,7 @@
 
     // Setup the `Underscore` template for displaying items in the `KillRing`.
     var killringItemTemplate = _.template("<div><% _.each(items, function(item, i) { %><div><%- i %>&nbsp;<%- item %></div><% }); %></div>");
-
+    
     // Create a the command `killring` which will display all text currently in the `KillRing`, by attaching
     // a handler to the `Shell`.
     shell.setCommandHandler("killring", {
@@ -64,6 +64,9 @@
         callback(killringItemTemplate({items: killring.items()}));
       }
     });
+    
+    // Custom Console Commands
+    //_______________________________________
 	
   	shell.setCommandHandler("hello", {
   		exec: function(cmd, args, callback) {
@@ -128,7 +131,7 @@
   				response = getRequest(data,url+uri+arg);
   			} else if(arg === 'push') {
   			  data = { 'branch' : "master"}; //branch should be arg
-  				response = postReuqest(data,url+uri+arg);
+  				response = postRequest(data,url+uri+arg);
   			} else if(arg === 'commit') {
   			  data = { 'message' : "Updated source code"};
   				response = postRequest(data, url+uri+arg);
@@ -140,7 +143,10 @@
   		}
   	});
   	
-  	function postRequest(responseData,slug){
+    // AJAX request functions
+    //_______________________________________________
+    
+    function postRequest(responseData,slug){
       $.ajax({
         url: slug,
         type: 'POST',
