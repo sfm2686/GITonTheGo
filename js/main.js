@@ -68,6 +68,26 @@
         callback(killringItemTemplate({items: killring.items()}));
       }
     });
+	
+	shell.setCommandHandler("hello", {
+		exec: function(cmd, args, callback) {
+			//alert('EXECUTING');
+			var arg = args[0] || '';
+			var response = "who is this " + arg + " you are talking to?";
+			if(arg === 'josh') {
+				response = 'pleased to meet you.';
+			} else if(arg === 'world') {
+				response = 'world says hi.'
+			} else if(!arg) {
+				response = 'who are you saying hello to?';
+			}
+			callback(response);
+		},
+		completion: function(cmd, arg, line, callback) {
+			//alert('COMPLETION');
+			callback(shell.bestMatch(arg, ['world', 'josh']))
+		}
+	});
 
     // Setup PathHandler
     // -----------------
