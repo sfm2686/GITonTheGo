@@ -10,10 +10,10 @@ var rubyVersions = ["Ruby 2", "Ruby 1"];
 // Lang frameworks //
 
 // Python frameworks
-var pythonFrameworks = ["Flask", "Djnago"]
+var pythonFrameworks = ["N/A", "Flask", "Djnago"]
 
 // Ruby frameworks
-var rubyFrameworks = ["Sinatra", "CakePHP"]
+var rubyFrameworks = ["N/A", "Sinatra", "CakePHP"]
 
 
 // Making maps for lang versions and frameworks
@@ -73,6 +73,11 @@ function frameworkPop() {
 }
 
 function submitted() {
+	if (document.getElementById("repoLink").value != '') {
+		$("#submitButton").attr("href", "shellPage.html");
+	} else {
+		alert("Where are you going? You did not give us a repository yet!");
+	}
 	// TODO - add code for failure
 	var data = {};
 	data["language"] = document.getElementById("lang").options[document.getElementById("lang").selectedIndex].value;
@@ -96,5 +101,5 @@ function submitted() {
 }
 
 function tryit() {
-	// flask api calls happen here
+	// flask api calls for 'try it', pre-built project here
 }
