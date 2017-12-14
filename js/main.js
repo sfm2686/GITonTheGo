@@ -88,6 +88,51 @@
 			callback(shell.bestMatch(arg, ['world', 'josh']))
 		}
 	});
+	
+	shell.setCommandHandler("build", {
+		exec: function(cmd, args, callback) {
+			var arg = args[0] || '';
+			var response = "No project to build";
+			if(arg == '-x'){
+			  response = "No project to build and execute";
+			}
+			callback(response);
+		},
+		completion: function(cmd, arg, line, callback) {
+			callback(shell.bestMatch(arg, ['-x']))
+		}
+	});
+	
+	shell.setCommandHandler("stop", {
+		exec: function(cmd, args, callback) {
+			var arg = args[0] || '';
+			var response = "No project builds started";
+			callback(response);
+		},
+		completion: function(cmd, arg, line, callback) {
+			callback(shell.bestMatch(arg, ['-x']))
+		}
+	});
+	
+	shell.setCommandHandler("git", {
+		exec: function(cmd, args, callback) {
+			var arg = args[0] || '';
+			var response = "who is this " + arg + " you are talking to?";
+			if(arg === 'pull') {
+				response = 'Nothing to pull';
+			} else if(arg === 'push') {
+				response = 'Nothing to push.'
+			} else if(arg === 'commit') {
+				response = 'Nothing to commit'
+			} else if(!arg) {
+				response = 'Git v2.15.1';
+			}
+			callback(response);
+		},
+		completion: function(cmd, arg, line, callback) {
+			callback(shell.bestMatch(arg, ['pull', 'push', 'commit']))
+		}
+	});
 
     // Setup PathHandler
     // -----------------
