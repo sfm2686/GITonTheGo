@@ -2,13 +2,11 @@ from __future__ import division
 import os
 import re
 import socket
-# import clamd
 import uuid
 import logging
 import json
 from collections import Counter
 from flask import Flask, request, redirect, url_for, jsonify
-# from redis import Redis, RedisError
 from werkzeug.utils import secure_filename
 from urlparse import urlparse
 
@@ -29,9 +27,9 @@ app = Flask(__name__, static_url_path='')
 #Create JSON response
 def response(status,code,data,message):
   return jsonify(status=status,
-                  status_code=code,
-                  data=data,
-                  message=message)
+                status_code=code,
+                data=data,
+                message=message)
 
 ###########################################
 ## API Endpoints
@@ -54,7 +52,7 @@ def init_repo():
 		data["version"] = ""
 	if data["framework"] == "-":
 		data["framework"] = ""
-		
+
     return response('Success', 200, None, 'Project initialized')
     #TODO
     # 1. Create Dockerfile + requirements.txt
