@@ -73,7 +73,7 @@ function frameworkPop() {
 }
 
 function submitted() {
-	if (document.getElementById("repoLink").value != '') {
+	if (document.getElementById("repoLink").value !== '') {
 		$("#submitButton").attr("href", "shellPage");
 	} else {
 		alert("Where are you going? You did not give us a repository yet!");
@@ -87,7 +87,7 @@ function submitted() {
 	data["repoLink"] = document.getElementById("repoLink").value;
 
 	$.ajax({
-		url: "http://http://ec2-54-165-178-189.compute-1.amazonaws.com/api/v1/init",
+		url: "http://ec2-54-165-178-189.compute-1.amazonaws.com/api/v1/init",
 		data: JSON.stringify(data),
 		contentType: 'application/json',
 		type: 'POST',
