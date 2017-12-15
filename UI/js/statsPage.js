@@ -1,4 +1,4 @@
-$.getJSON("http://127.0.0.1:5000/api/v1/git/stats",
+$.getJSON("http://ec2-54-165-178-189.compute-1.amazonaws.com/api/v1/git/stats",
 	function(data) {
 
 		// Getting the body of the response
