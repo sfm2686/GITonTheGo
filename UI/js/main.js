@@ -149,7 +149,7 @@
         type: 'POST',
         contentType: 'application/json;charset=UTF-8',
         dataType: 'json',
-        data: JSON.stringify(responseData),
+        data: JSON.stringify(requestData),
         success: function(response){
           console.log(response);
           return response.message;
@@ -178,7 +178,7 @@
         type: 'GET',
         contentType: 'application/json;charset=UTF-8',
         dataType: 'json',
-        data: JSON.stringify(responseData),
+        data: JSON.stringify(requestData),
         success: function(response){
           console.log(response);
           return response.message;
