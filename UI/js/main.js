@@ -27,19 +27,16 @@
 
     // build the *fake* directory structure used to illustrate path commands and completions.
     var treeroot = buildTree();
-
     // Create `History` and `KillRing` by hand since we will use the `KillRing` for an example command.
     var history = Josh.History();
     var killring = new Josh.KillRing();
-
     // Create the `ReadLine` instance by hand so that we can provide it our `KillRing`. Since the shell needs to share
     // the `History` object with `ReadLine` and `Shell` isn't getting to create `ReadLine` automatically as it usually does
     // we need to pass in `History` into `ReadLine` as well.
     var readline = new Josh.ReadLine({history: history, killring: killring, console: _console });
-
     // Finally, create the `Shell`.
     var shell = Josh.Shell({readline: readline, history: history, console: _console});
-    var url = "http://ec2-54-165-178-189.compute-1.amazonaws.com/api/v1/"
+    var url = "http://ec2-54-165-178-189.compute-1.amazonaws.com/api/v1"
 
     // Create *killring* command
     // -------------------------
@@ -147,7 +144,7 @@
     //_______________________________________________
     
     function postRequest(requestData,slug){
-      /*$.ajax({
+      $.ajax({
         url: slug,
         type: 'POST',
         contentType: 'application/json;charset=UTF-8',
@@ -167,16 +164,16 @@
         },
         processData: false
        
-      });*/
-      $.post( slug, JSON.stringify(requestData),
+      });
+      /*$.post( slug, JSON.stringify(requestData),
         function(response){
           console.log(responseData);
           return response.message;
-        });
+        });*/
     }
     
     function getRequest(requestData,slug){
-      /*$.ajax({
+      $.ajax({
         url: slug,
         type: 'GET',
         contentType: 'application/json;charset=UTF-8',
@@ -196,12 +193,12 @@
         },
         processData: false
        
-      });*/
-      $.get( slug, JSON.stringify(requestData),
+      });
+      /*$.get( slug, JSON.stringify(requestData),
         function(response){
           console.log(responseData);
           return response.message;
-        });
+        });*/
     }
 
     // Setup PathHandler
