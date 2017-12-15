@@ -112,7 +112,6 @@
   			setTimeout(function(){
   			  callback(response);
   			}, 666);
-  			
   		},
   		completion: function(cmd, arg, line, callback) {
   			callback(shell.bestMatch(arg, ['pull', 'push', 'commit']));
@@ -124,7 +123,7 @@
   	shell.setCommandHandler("nano", {
   		exec: function(cmd, args, callback) {
   			var arg = args[0] || '';
-  			var response = "Text editing unavailable! \n Hint: Use the GitHub editor for file editing.";
+  			response = "Text editing unavailable! \n Hint: Use the GitHub editor for file editing.";
   			callback(response);
   		},
   		completion: function(cmd, arg, line, callback) {
@@ -135,7 +134,7 @@
   	shell.setCommandHandler("vi", {
   		exec: function(cmd, args, callback) {
   			var arg = args[0] || '';
-  			var response = "Text editing unavailable! \n Hint: Use the GitHub editor for file editing.";
+  			response = "Text editing unavailable! \n Hint: Use the GitHub editor for file editing.";
   			callback(response);
   		},
   		completion: function(cmd, arg, line, callback) {
