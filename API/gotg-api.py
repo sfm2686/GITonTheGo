@@ -38,14 +38,14 @@ def response(status,code,data,message):
 
 def init_requirements(framework,libraries):
     f = open("docker/requirements.txt","w+")
-    f.write(framework)
+    f.write(framework+"\r\n")
     for lib in libraries:
-        f.write(lib)
+        f.write(lib+"\r\n")
         
-def init_dockerfile(language,version):
+def init_dockerfile(language,version,repo):
     f = open("docker/Dockerfile","w+")
     f.write("FROM "+language+":"+version+"\r\n") #runtime
-    f.write("WORKDIR /docker \r\n") #TODO repo directory
+    f.write("WORKDIR /docker\r\n") #TODO repo directory
     f.write("ADD requirements.txt /docker\r\n") #req
     f.write("RUN pip install -r requirements.txt\r\n") #pip
     f.write("ADD . /docker\r\n")
@@ -93,8 +93,8 @@ def init_repo():
     if data["framework"] == "-":
         data["framework"] = ""
     #Stubbed until git functionality is available
-    init_requirements(data["framework"], ["Werkzeug","Redis"])
-    init_dockerfile(data["language"], data["version"])
+    init_requirements(data["framework"], data["libraries"])
+    init_dockerfile(data["language"], data["version"], data["repoLink"])
     #Check the dockerfiles exist
     if os.path.isfile(os.path.join(app.config['DOCKER_DIRECTORY'], 'requirements.txt')) \
         and os.path.isfile(os.path.join(app.config['DOCKER_DIRECTORY', 'Dockerfile'])):
