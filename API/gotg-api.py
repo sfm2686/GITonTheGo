@@ -21,6 +21,7 @@ DOCKER_DIRECTORY = '/docker'
 JS_DIRECTORY = '../UI/js'
 CSS_DIRECTORY = '../UI/css'
 UI_DIRECTORY = '../UI'
+REPO = ''
 
 app = Flask(__name__)
 app.config['DOCKER_DIRECTORY'] = DOCKER_DIRECTORY
@@ -97,6 +98,7 @@ def init_repo():
         data["version"] = ""
     if data["framework"] == "-":
         data["framework"] = ""
+    REPO = data["repoLink"]
     #Stubbed until git functionality is available
     init_requirements(data["framework"], data["libraries"])
     init_dockerfile(data["language"], data["version"], data["repoLink"])
@@ -118,13 +120,12 @@ def build_docker():
     run = request.args.get('execute')
     if run:
         img = DOCKER_CLIENT.images.build(app.config["DOCKER-DIRECTORY"])
+        DOCKER_CLIENT.containers.run(img)
         return response('Success', 200, None, 'Project built and ran successfully with 0 warnings and 0 errors')
     else:
         img = DOCKER_CLIENT.images.build(app.config["DOCKER-DIRECTORY"])
+        con = DOCKER_CLIENT.containers.create(img)
         return response('Success', 200, None, 'Project built successfully with 0 warnings and 0 errors')
-    #TODO
-    # 1. Command/request to build container
-    # 2. Retrieve warnings and errors
     
 
 # [GET] Pull the project repo
@@ -156,8 +157,7 @@ def git_commit():
 # @return - Success: true || Fail: false
 @app.route(VERSION + '/git/repo/push', methods=['POST'])
 def git_push():
-    #TODO
-    # 1. Mock out functionality?
+    # Stubbed response
     return response('Success', 200, None, 'Project successfully pushed')
     
 
@@ -171,7 +171,6 @@ def git_stats():
 	stats["table1"] = parseGitLog("git-log.txt", 'Date:   ', dayPercentageParser)
 	stats["table2"] = parseGitLog("git-log.txt", 'Date:   ', timePercentageParser)
 	stats["table3"] = commitWord()
-
 	# Returning a response with the data as the body
 	return response('Success', 200, stats, 'Successful stats processed')
 
