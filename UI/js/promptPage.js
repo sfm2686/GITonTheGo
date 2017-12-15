@@ -74,7 +74,7 @@ function frameworkPop() {
 
 function submitted() {
 	if (document.getElementById("repoLink").value != '') {
-		$("#submitButton").attr("href", "shellPage.html");
+		$("#submitButton").attr("href", "shellPage");
 	} else {
 		alert("Where are you going? You did not give us a repository yet!");
 	}

@@ -6,7 +6,7 @@ import uuid
 import logging
 import json
 from collections import Counter
-from flask import Flask, request, redirect, url_for, jsonify
+from flask import Flask, request, redirect, url_for, jsonify, send_from_directory
 from werkzeug.utils import secure_filename
 from urlparse import urlparse
 
@@ -19,7 +19,7 @@ GIT_HUB = 'https://api.github.com'
 REPO = 'OpenNl2' #TODO - REMOVE?
 OWNER = 'rjswitzer3'
 TOKEN = 'iuwevbuiwenviuoqwrnqviuowqr831093289328932'
-app = Flask(__name__, static_url_path='')
+app = Flask(__name__)
 
 ###########################################
 ## Helper FXs
@@ -34,9 +34,28 @@ def response(status,code,data,message):
 ###########################################
 ## API Endpoints
 ###########################################
-@app.route('/')
+
+# Pages
+@app.route('/', methods=['GET'])
 def home():
-    return app.send_static_file('../UI/homePage.html')
+    return send_from_directory('../UI', 'homePage.html')
+
+@app.route('/shellPage', methods=['GET'])
+def shell():
+    return send_from_directory('../UI', 'shellPage.html')
+
+@app.route('/statsPage', methods=['GET'])
+def stats():
+    return send_from_directory('../UI', 'statsPage.html')
+
+# Resources
+@app.route('/js/<path:path>')
+def send_js(path):
+    return send_from_directory('../UI/js', path)
+
+@app.route('/css/<path:path>')
+def send_css(path):
+    return send_from_directory('../UI/css', path)
 
 # [POST] Initialize pull repo
 # @params - lanuage, framework, libraries as json
@@ -214,5 +233,5 @@ def commitWord():
 	return dict(Counter(wordsDict).most_common(10))
 	
 if __name__ == "__main__":
-    app.run()
+    app.run(host='0.0.0.0', port=80)
 
