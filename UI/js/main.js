@@ -94,12 +94,13 @@
   				response = getRequest(data,url+uri+arg);
   			} else if(arg === 'push') {
   			  data = { 'branch' : "master"}; //branch should be arg
-  				response = postRequest(data,url+uri+arg);
+  	      var r = postRequest(data,url+uri+arg);
+  				response = r;
   			} else if(arg === 'commit') {
   			  var flag = args[1] || '';
   			  var message = args[2] || '';
   			  if(!flag){
-  			    response = "Please enter a commit message [git commit -m <message>] "
+  			    response = "Please enter a commit message [git commit -m {message}] ";
   			  }else{
   			    data = { 'message' : message};
   				  response = postRequest(data, url+uri+arg);
@@ -149,11 +150,11 @@
         data: JSON.stringify(requestData),
         success: function(response){
           console.log(response.message);
-          callback(response.message);
+          return response.message;
         },
         error: function(xhr,error){
           console.log("Error - "+xhr.responseText);
-          callback(xhr.responseText);
+          return xhr.responseText;
         },
         complete: function(){
           //TBD
@@ -171,11 +172,11 @@
         data: JSON.stringify(requestData),
         success: function(response){
           console.log(response.message);
-          callback(response.message);
+          return response.message;
         },
         error: function(xhr,error){
           console.log("Error - "+xhr.responseText);
-          callback(xhr.responseText);
+          return xhr.responseText;
         },
         complete: function(){
           //TBD
