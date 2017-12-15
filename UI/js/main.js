@@ -146,8 +146,8 @@
     // AJAX request functions
     //_______________________________________________
     
-    function postRequest(responseData,slug){
-      $.ajax({
+    function postRequest(requestData,slug){
+      /*$.ajax({
         url: slug,
         type: 'POST',
         contentType: 'application/json;charset=UTF-8',
@@ -167,11 +167,16 @@
         },
         processData: false
        
-      });
+      });*/
+      $.post( slug, JSON.stringify(requestData),
+        function(response){
+          console.log(responseData);
+          return response.message;
+        });
     }
     
-    function getRequest(responseData,slug){
-      $.ajax({
+    function getRequest(requestData,slug){
+      /*$.ajax({
         url: slug,
         type: 'GET',
         contentType: 'application/json;charset=UTF-8',
@@ -191,7 +196,12 @@
         },
         processData: false
        
-      });
+      });*/
+      $.get( slug, JSON.stringify(requestData),
+        function(response){
+          console.log(responseData);
+          return response.message;
+        });
     }
 
     // Setup PathHandler
