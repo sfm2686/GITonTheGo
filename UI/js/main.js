@@ -75,7 +75,9 @@
   			  data = { 'execute' : false };
   			  response = getRequest(data,url+uri);
   			}
-  			callback(response);
+  			setTimeout(function() {
+  			  callback(response);
+  			}, 666);
   		},
   		completion: function(cmd, arg, line, callback) {
   			callback(shell.bestMatch(arg, ['-x']));
@@ -94,8 +96,7 @@
   				response = getRequest(data,url+uri+arg);
   			} else if(arg === 'push') {
   			  data = { 'branch' : "master"}; //branch should be arg
-  	      var r = postRequest(data,url+uri+arg);
-  				response = r;
+  				response = postRequest(data,url+uri+arg);
   			} else if(arg === 'commit') {
   			  var flag = args[1] || '';
   			  var message = args[2] || '';
@@ -106,7 +107,9 @@
   				  response = postRequest(data, url+uri+arg);
   			  }
   			}
-  			callback(response);
+  			setTimeout(function() {
+  			  callback(response);
+  			}, 666);
   		},
   		completion: function(cmd, arg, line, callback) {
   			callback(shell.bestMatch(arg, ['pull', 'push', 'commit']));
