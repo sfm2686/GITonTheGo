@@ -16,9 +16,6 @@ from urlparse import urlparse
 ###########################################
 VERSION = '/api/v1'
 GIT_HUB = 'https://api.github.com'
-REPO = 'OpenNl2' #TODO - REMOVE?
-OWNER = 'rjswitzer3'
-TOKEN = 'iuwevbuiwenviuoqwrnqviuowqr831093289328932'
 app = Flask(__name__)
 
 ###########################################
@@ -108,13 +105,9 @@ def git_pull():
 @app.route(VERSION + '/git/repo/commit', methods=['POST'])
 def git_commit():
     if request.args.get('message') == '':
-        return response('Bad Request', 400, None, 'None commit message provided')
+        return response('Bad Request', 403, None, 'Aborting commit due to empty commit message.')
     else:
-        url = GIT_HUB+'/repos/'+OWNER+'/'+REPO+'/git/commits/'+TOKEN
-        if requests.post(url, jsonify(message)):
-            return response('Success', 200, None, 'Successful commity with message = ' + message)
-        else:
-            return response('Internal Servver Error', 500, None, 'Failed to commit git repo')
+        return response('Success', 200, None, '[Stub] Commit success: ' + message)
 
 
 # [GET] Git push

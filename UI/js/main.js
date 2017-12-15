@@ -24,7 +24,6 @@
 
     // Setup of Shell
     // --------------
-
     // build the *fake* directory structure used to illustrate path commands and completions.
     var treeroot = buildTree();
     // Create `History` and `KillRing` by hand since we will use the `KillRing` for an example command.
@@ -36,14 +35,12 @@
     var readline = new Josh.ReadLine({history: history, killring: killring, console: _console });
     // Finally, create the `Shell`.
     var shell = Josh.Shell({readline: readline, history: history, console: _console});
-    var url = "http://ec2-54-165-178-189.compute-1.amazonaws.com/api/v1"
+    var url = "http://ec2-54-165-178-189.compute-1.amazonaws.com/api/v1";
 
     // Create *killring* command
     // -------------------------
-
     // Setup the `Underscore` template for displaying items in the `KillRing`.
     var killringItemTemplate = _.template("<div><% _.each(items, function(item, i) { %><div><%- i %>&nbsp;<%- item %></div><% }); %></div>");
-    
     // Create a the command `killring` which will display all text currently in the `KillRing`, by attaching
     // a handler to the `Shell`.
     shell.setCommandHandler("killring", {
@@ -64,34 +61,14 @@
     
     // Custom Console Commands
     //_______________________________________
-	
-  	shell.setCommandHandler("hello", {
-  		exec: function(cmd, args, callback) {
-  			//alert('EXECUTING');
-  			var arg = args[0] || '';
-  			var response = "who is this " + arg + " you are talking to?";
-  			if(arg === 'josh') {
-  				response = 'pleased to meet you.';
-  			} else if(arg === 'world') {
-  				response = 'world says hi.'
-  			} else if(!arg) {
-  				response = 'who are you saying hello to?';
-  			}
-  			callback(response);
-  		},
-  		completion: function(cmd, arg, line, callback) {
-  			//alert('COMPLETION');
-  			callback(shell.bestMatch(arg, ['world', 'josh']))
-  		}
-  	});
-  	
   	shell.setCommandHandler("build", {
   		exec: function(cmd, args, callback) {
   			var arg = args[0] || '';
-  			var uri = '/build';
   			var data;
+  			var uri = '/build';
   			var response = "No project to build";
-  			if(arg == '-x'){
+  			
+  			if(arg === '-x'){
   			  data = { 'execute' : true };
   			  response = getRequest(data,url+uri);
   			}else{
@@ -101,28 +78,17 @@
   			callback(response);
   		},
   		completion: function(cmd, arg, line, callback) {
-  			callback(shell.bestMatch(arg, ['-x']))
+  			callback(shell.bestMatch(arg, ['-x']));
   		}
   	});
-  	
-  	/*shell.setCommandHandler("stop", {
-  		exec: function(cmd, args, callback) {
-  			var arg = args[0] || '';
-  			var response = "No project builds started";
-  			callback(response);
-  		},
-  		completion: function(cmd, arg, line, callback) {
-  			callback(shell.bestMatch(arg, ['-x']))
-  		}
-  	});*/
   	
   	shell.setCommandHandler("git", {
   		exec: function(cmd, args, callback) {
   			var arg = args[0] || '';
-  			console.log(args);
+  			var data;
   			var uri = '/git/repo/';
   			var response = "Git v2.15.1";
-  			var data;
+  			
   			if(arg === 'pull') {
   			  data = { 'link' : "https://github.com/rails/rails"}; //The repo link should be stashed somewhere
   				response = getRequest(data,url+uri+arg);
@@ -130,15 +96,46 @@
   			  data = { 'branch' : "master"}; //branch should be arg
   				response = postRequest(data,url+uri+arg);
   			} else if(arg === 'commit') {
-  			  data = { 'message' : "Updated source code"};
-  				response = postRequest(data, url+uri+arg);
+  			  var flag = args[1] || '';
+  			  var message = args[2] || '';
+  			  if(!flag){
+  			    response = "Please enter a commit message [git commit -m <message>] "
+  			  }else{
+  			    data = { 'message' : message};
+  				  response = postRequest(data, url+uri+arg);
+  			  }
   			}
   			callback(response);
   		},
   		completion: function(cmd, arg, line, callback) {
-  			callback(shell.bestMatch(arg, ['pull', 'push', 'commit']))
+  			callback(shell.bestMatch(arg, ['pull', 'push', 'commit']));
   		}
   	});
+  	
+  	//Text editors that may be supported in the future
+  	//Functionlaity unavailable currently
+  	shell.setCommandHandler("nano", {
+  		exec: function(cmd, args, callback) {
+  			var arg = args[0] || '';
+  			var response = "Text editing unavailable! \n Hint: Use the GitHub editor for file editing.";
+  			callback(response);
+  		},
+  		completion: function(cmd, arg, line, callback) {
+  			callback(shell.bestMatch(arg, ['<file>']));
+  		}
+  	});
+  	
+  	shell.setCommandHandler("vi", {
+  		exec: function(cmd, args, callback) {
+  			var arg = args[0] || '';
+  			var response = "Text editing unavailable! \n Hint: Use the GitHub editor for file editing.";
+  			callback(response);
+  		},
+  		completion: function(cmd, arg, line, callback) {
+  			callback(shell.bestMatch(arg, ['<file>']));
+  		}
+  	});
+  	
   	
     // AJAX request functions
     //_______________________________________________
@@ -151,7 +148,7 @@
         dataType: 'json',
         data: JSON.stringify(requestData),
         success: function(response){
-          console.log(response);
+          console.log(response.message);
           return response.message;
         },
         error: function(xhr,error){
@@ -163,13 +160,7 @@
           console.log("Complete");
         },
         processData: false
-       
       });
-      /*$.post( slug, JSON.stringify(requestData),
-        function(response){
-          console.log(responseData);
-          return response.message;
-        });*/
     }
     
     function getRequest(requestData,slug){
@@ -180,7 +171,7 @@
         dataType: 'json',
         data: JSON.stringify(requestData),
         success: function(response){
-          console.log(response);
+          console.log(response.message);
           return response.message;
         },
         error: function(xhr,error){
@@ -192,13 +183,7 @@
           console.log("Complete");
         },
         processData: false
-       
       });
-      /*$.get( slug, JSON.stringify(requestData),
-        function(response){
-          console.log(responseData);
-          return response.message;
-        });*/
     }
 
     // Setup PathHandler
