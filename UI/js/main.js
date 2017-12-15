@@ -158,7 +158,7 @@
         complete: function(){
           //TBD
         },
-        processData: false
+        async: false
       });
     }
     
@@ -180,7 +180,7 @@
         complete: function(){
           //TBD
         },
-        processData: false
+        async: false
       });
     }
 
