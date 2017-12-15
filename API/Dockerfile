@@ -8,8 +8,6 @@ WORKDIR /API
 ADD requirements.txt /API
 RUN pip install -r requirements.txt
 
-RUN mkdir -p /images/uploads
-
 # Copy the current directory contents into the container at /API
 ADD . /API
 
@@ -19,5 +17,5 @@ EXPOSE 80
 # Define environment variable
 ENV NAME World
 
-# Run app.py when the container launches
+# Run gotg-api.py when the container launches
 CMD ["python", "gotg-api.py"]

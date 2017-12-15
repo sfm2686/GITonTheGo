@@ -16,8 +16,16 @@ from urlparse import urlparse
 ###########################################
 VERSION = '/api/v1'
 GIT_HUB = 'https://api.github.com'
-app = Flask(__name__)
+DOCKER_DIRECTORY = '/docker'
+JS_DIRECTORY = '../UI/js'
+CSS_DIRECTORY = '../UI/css'
+UI_DIRECTORY = '../UI'
 
+app = Flask(__name__)
+app.config['DOCKER_DIRECTORY'] = DOCKER_DIRECTORY
+app.config['JS_DIRECTORY'] = JS_DIRECTORY
+app.config['CSS_DIRECTORY'] = CSS_DIRECTORY
+app.config['UI_DIRECTORY'] = UI_DIRECTORY
 ###########################################
 ## Helper FXs
 ###########################################
@@ -28,30 +36,47 @@ def response(status,code,data,message):
                 data=data,
                 message=message)
 
+def init_requirements(framework,libraries):
+    f = open("docker/requirements.txt","w+")
+    f.write(framework)
+    for lib in libraries:
+        f.write(lib)
+        
+def init_dockerfile(language,version):
+    f = open("docker/Dockerfile","w+")
+    f.write("FROM "+language+":"+version+"\r\n") #runtime
+    f.write("WORKDIR /docker \r\n") #TODO repo directory
+    f.write("ADD requirements.txt /docker\r\n") #req
+    f.write("RUN pip install -r requirements.txt\r\n") #pip
+    f.write("ADD . /docker\r\n")
+    f.write("EXPOSE 80\r\n")
+    f.write("ENV NAME World\r\n")
+    f.write("CMD [""python"", ""gotg-api.py""]\r\n")
+
 ###########################################
 ## API Endpoints
 ###########################################
 # Pages
 @app.route('/', methods=['GET'])
 def home():
-    return send_from_directory('../UI', 'homePage.html')
+    return send_from_directory(app.config['UI_DIRECTORY'], 'homePage.html')
 
 @app.route('/shellPage', methods=['GET'])
 def shell():
-    return send_from_directory('../UI', 'shellPage.html')
+    return send_from_directory(app.config['UI_DIRECTORY'], 'shellPage.html')
 
 @app.route('/statsPage', methods=['GET'])
 def stats():
-    return send_from_directory('../UI', 'statsPage.html')
+    return send_from_directory(app.config['UI_DIRECTORY'], 'statsPage.html')
 
 # Resources
 @app.route('/js/<path:path>')
 def send_js(path):
-    return send_from_directory('../UI/js', path)
+    return send_from_directory(app.config['JS_DIRECTORY'], path)
 
 @app.route('/css/<path:path>')
 def send_css(path):
-    return send_from_directory('../UI/css', path)
+    return send_from_directory(app.config['CSS_DIRECTORY'], path)
 
 # [POST] Initialize pull repo
 # @params - lanuage, framework, libraries as json
@@ -67,8 +92,16 @@ def init_repo():
         data["version"] = ""
     if data["framework"] == "-":
         data["framework"] = ""
-    
-    return response('Success',200,None,'Project initialized')
+    #Stubbed until git functionality is available
+    init_requirements(data["framework"], ["Werkzeug","Redis"])
+    init_dockerfile(data["language"], data["version"])
+    #Check the dockerfiles exist
+    if os.path.isfile(os.path.join(app.config['DOCKER_DIRECTORY'], 'requirements.txt')) \
+        and os.path.isfile(os.path.join(app.config['DOCKER_DIRECTORY', 'Dockerfile'])):
+        return response('Success',200,None,'Project initialized')
+    else: #When would this be hit?
+        return response('Success',204,None,'Something')
+
     
 # [GET] Build the project in the docker container
 # @params - execute flag
