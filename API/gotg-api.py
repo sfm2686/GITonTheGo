@@ -31,7 +31,6 @@ def response(status,code,data,message):
 ###########################################
 ## API Endpoints
 ###########################################
-
 # Pages
 @app.route('/', methods=['GET'])
 def home():
@@ -107,6 +106,7 @@ def git_commit():
     if request.args.get('message') == '':
         return response('Bad Request', 403, None, 'Aborting commit due to empty commit message.')
     else:
+        message = request.args.get('message')
         return response('Success', 200, None, '[Stub] Commit success: ' + message)
 
 

@@ -149,15 +149,14 @@
         data: JSON.stringify(requestData),
         success: function(response){
           console.log(response.message);
-          return response.message;
+          callback(response.message);
         },
         error: function(xhr,error){
           console.log("Error - "+xhr.responseText);
-          return xhr.responseText;
+          callback(xhr.responseText);
         },
         complete: function(){
-          $('.loader').remove();
-          console.log("Complete");
+          //TBD
         },
         processData: false
       });
@@ -172,15 +171,14 @@
         data: JSON.stringify(requestData),
         success: function(response){
           console.log(response.message);
-          return response.message;
+          callback(response.message);
         },
         error: function(xhr,error){
           console.log("Error - "+xhr.responseText);
-          return xhr.responseText;
+          callback(xhr.responseText);
         },
         complete: function(){
-          $('.loader').remove();
-          console.log("Complete");
+          //TBD
         },
         processData: false
       });
