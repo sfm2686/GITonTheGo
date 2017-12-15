@@ -21,7 +21,7 @@ GIT_HUB = 'https://api.github.com'
 REPO = 'OpenNl2' #TODO - REMOVE?
 OWNER = 'rjswitzer3'
 TOKEN = 'iuwevbuiwenviuoqwrnqviuowqr831093289328932'
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
 
 ###########################################
 ## Helper FXs
@@ -36,6 +36,10 @@ def response(status,code,data,message):
 ###########################################
 ## API Endpoints
 ###########################################
+@app.route('/')
+def home():
+    return app.send_static_file('../UI/homePage.html')
+
 # [POST] Initialize pull repo
 # @params - lanuage, framework, libraries as json
 # @return - Success: Container Initialized -> True | Fail: Failrue -> False
@@ -217,3 +221,4 @@ def commitWord():
 	file.close()
 
 	return dict(Counter(wordsDict).most_common(10))
+
