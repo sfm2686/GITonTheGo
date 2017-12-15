@@ -39,7 +39,7 @@
 
     // Finally, create the `Shell`.
     var shell = Josh.Shell({readline: readline, history: history, console: _console});
-    var url = "http://ec2-35-165-178-189.compute-1.amazonaws.com/api/v1/"
+    var url = "http://ec2-54-165-178-189.compute-1.amazonaws.com/api/v1/"
 
     // Create *killring* command
     // -------------------------
