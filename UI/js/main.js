@@ -75,9 +75,7 @@
   			  data = { 'execute' : false };
   			  response = getRequest(data,url+uri);
   			}
-  			setTimeout(function() {
-  			  callback(response);
-  			}, 666);
+  			callback(response);
   		},
   		completion: function(cmd, arg, line, callback) {
   			callback(shell.bestMatch(arg, ['-x']));
@@ -107,9 +105,7 @@
   				  response = postRequest(data, url+uri+arg);
   			  }
   			}
-  			setTimeout(function() {
-  			  callback(response);
-  			}, 666);
+  			callback(response);
   		},
   		completion: function(cmd, arg, line, callback) {
   			callback(shell.bestMatch(arg, ['pull', 'push', 'commit']));
@@ -145,7 +141,7 @@
     //_______________________________________________
     
     function postRequest(requestData,slug){
-      $.ajax({
+      return $.ajax({
         url: slug,
         type: 'POST',
         contentType: 'application/json;charset=UTF-8',
@@ -167,7 +163,7 @@
     }
     
     function getRequest(requestData,slug){
-      $.ajax({
+      return $.ajax({
         url: slug,
         type: 'GET',
         contentType: 'application/json;charset=UTF-8',
