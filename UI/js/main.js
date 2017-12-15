@@ -61,21 +61,25 @@
     
     // Custom Console Commands
     //_______________________________________
+    var response = "";
+    
   	shell.setCommandHandler("build", {
   		exec: function(cmd, args, callback) {
   			var arg = args[0] || '';
   			var data;
   			var uri = '/build';
-  			var response = "No project to build";
+  			response = "No project to build";
   			
   			if(arg === '-x'){
   			  data = { 'execute' : true };
-  			  response = getRequest(data,url+uri);
+  			  getRequest(data,url+uri); //TEST
   			}else{
   			  data = { 'execute' : false };
-  			  response = getRequest(data,url+uri);
+  			  getRequest(data,url+uri); //TEST
   			}
-  			callback(response);
+  			setTimeout(function(){
+    			callback(response);
+  			}, 666);
   		},
   		completion: function(cmd, arg, line, callback) {
   			callback(shell.bestMatch(arg, ['-x']));
@@ -87,14 +91,14 @@
   			var arg = args[0] || '';
   			var data;
   			var uri = '/git/repo/';
-  			var response = "Git v2.15.1";
+  			response = "Git v2.15.1";
   			
   			if(arg === 'pull') {
   			  data = { 'link' : "https://github.com/rails/rails"}; //The repo link should be stashed somewhere
-  				response = getRequest(data,url+uri+arg);
+  				getRequest(data,url+uri+arg); //TEST
   			} else if(arg === 'push') {
   			  data = { 'branch' : "master"}; //branch should be arg
-  				response = postRequest(data,url+uri+arg);
+  				postRequest(data,url+uri+arg); //TEST
   			} else if(arg === 'commit') {
   			  var flag = args[1] || '';
   			  var message = args[2] || '';
@@ -102,10 +106,13 @@
   			    response = "Please enter a commit message [git commit -m {message}] ";
   			  }else{
   			    data = { 'message' : message};
-  				  response = postRequest(data, url+uri+arg);
+  				  postRequest(data, url+uri+arg); //TEST
   			  }
   			}
-  			callback(response);
+  			setTimeout(function(){
+  			  callback(response);
+  			}, 666);
+  			
   		},
   		completion: function(cmd, arg, line, callback) {
   			callback(shell.bestMatch(arg, ['pull', 'push', 'commit']));
@@ -141,15 +148,15 @@
     //_______________________________________________
     
     function postRequest(requestData,slug){
-      return $.ajax({
+      $.ajax({
         url: slug,
         type: 'POST',
         contentType: 'application/json;charset=UTF-8',
         dataType: 'json',
         data: JSON.stringify(requestData),
-        success: function(response){
-          console.log(response.message);
-          return response.message;
+        success: function(responseData){
+          console.log(responseData.message);
+          response = responseData.message;
         },
         error: function(xhr,error){
           console.log("Error - "+xhr.responseText);
@@ -157,8 +164,7 @@
         },
         complete: function(){
           //TBD
-        },
-        async: false
+        }
       });
     }
     
@@ -169,18 +175,17 @@
         contentType: 'application/json;charset=UTF-8',
         dataType: 'json',
         data: JSON.stringify(requestData),
-        success: function(response){
-          console.log(response.message);
-          return response.message;
+        success: function(responseData){
+          console.log(responseData.message);
+          response = responseData.message;
         },
         error: function(xhr,error){
           console.log("Error - "+xhr.responseText);
-          return xhr.responseText;
+          response = xhr.responseText;
         },
         complete: function(){
           //TBD
-        },
-        async: false
+        }
       });
     }
 
