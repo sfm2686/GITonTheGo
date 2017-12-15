@@ -44,23 +44,17 @@ def home():
 @app.route(VERSION + '/init', methods=['POST'])
 def init_repo():
     # JSON object to be used for dockerfile
-	data = request.json
-	# Cleaning json object
-	if data["language"] == "N/A":
-		data["language"] = ""
-	if data["version"] == "-":
-		data["version"] = ""
-	if data["framework"] == "-":
-		data["framework"] = ""
-
-    return response('Success', 200, None, 'Project initialized')
-    #TODO
-    # 1. Create Dockerfile + requirements.txt
-    # 2. write to requirements.txt
-    # 3. Download repo
-    # 4. Init fake filesystem
-
-
+    data = request.json
+    # Cleaning json object
+    if data["language"] == "N/A":
+        data["language"] = ""
+    if data["version"] == "-":
+        data["version"] = ""
+    if data["framework"] == "-":
+        data["framework"] = ""
+    
+    return response('Success',200,None,'Project initialized')
+    
 # [GET] Build the project in the docker container
 # @params - execute flag
 # @return - Success: TBD || Fail: Build / execution errors
@@ -97,7 +91,6 @@ def git_commit():
     if request.args.get('message') == '':
         return response('Bad Request', 400, None, 'None commit message provided')
     else:
-        #TODO: python url builder + correct git request
         url = GIT_HUB+'/repos/'+OWNER+'/'+REPO+'/git/commits/'+TOKEN
         if requests.post(url, jsonify(message)):
             return response('Success', 200, None, 'Successful commity with message = ' + message)
@@ -219,4 +212,7 @@ def commitWord():
 	file.close()
 
 	return dict(Counter(wordsDict).most_common(10))
+	
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=80)
 
