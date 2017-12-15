@@ -5,6 +5,7 @@ import socket
 import uuid
 import logging
 import json
+import docker
 from collections import Counter
 from flask import Flask, request, redirect, url_for, jsonify, send_from_directory
 from werkzeug.utils import secure_filename
@@ -26,6 +27,8 @@ app.config['DOCKER_DIRECTORY'] = DOCKER_DIRECTORY
 app.config['JS_DIRECTORY'] = JS_DIRECTORY
 app.config['CSS_DIRECTORY'] = CSS_DIRECTORY
 app.config['UI_DIRECTORY'] = UI_DIRECTORY
+
+DOCKER_CLIENT = docker.from_env()
 ###########################################
 ## Helper FXs
 ###########################################
@@ -53,6 +56,7 @@ def init_dockerfile(language,version,repo):
     f.write("ENV NAME World\r\n")
     f.write("CMD [""python"", ""gotg-api.py""]\r\n")
 
+
 ###########################################
 ## API Endpoints
 ###########################################
@@ -77,6 +81,7 @@ def send_js(path):
 @app.route('/css/<path:path>')
 def send_css(path):
     return send_from_directory(app.config['CSS_DIRECTORY'], path)
+
 
 # [POST] Initialize pull repo
 # @params - lanuage, framework, libraries as json
@@ -112,8 +117,10 @@ def build_docker():
         return response('Bad Request', 400, None, 'Execution specifier required')
     run = request.args.get('execute')
     if run:
+        img = DOCKER_CLIENT.images.build(app.config["DOCKER-DIRECTORY"])
         return response('Success', 200, None, 'Project built and ran successfully with 0 warnings and 0 errors')
     else:
+        img = DOCKER_CLIENT.images.build(app.config["DOCKER-DIRECTORY"])
         return response('Success', 200, None, 'Project built successfully with 0 warnings and 0 errors')
     #TODO
     # 1. Command/request to build container
