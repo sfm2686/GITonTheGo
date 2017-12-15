@@ -214,5 +214,5 @@ def commitWord():
 	return dict(Counter(wordsDict).most_common(10))
 	
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=80)
+    app.run()
 
