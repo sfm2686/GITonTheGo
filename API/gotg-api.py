@@ -103,7 +103,7 @@ def git_pull():
 # @return - Success: 'Some  mesage' | Fail: 'Failed to commit'
 @app.route(VERSION + '/git/repo/commit', methods=['POST'])
 def git_commit():
-    if request.args.get('message') == '':
+    if request.args.get('message') == None:
         return response('Bad Request', 403, None, 'Aborting commit due to empty commit message.')
     else:
         message = request.args.get('message')
