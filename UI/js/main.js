@@ -72,10 +72,10 @@
   			
   			if(arg === '-x'){
   			  data = { 'execute' : true };
-  			  getRequest(data,url+uri); //TEST
+  			  getRequest(data,url+uri);
   			}else{
   			  data = { 'execute' : false };
-  			  getRequest(data,url+uri); //TEST
+  			  getRequest(data,url+uri);
   			}
   			setTimeout(function(){
     			callback(response);
@@ -95,10 +95,10 @@
   			
   			if(arg === 'pull') {
   			  data = { 'link' : "https://github.com/rails/rails"}; //The repo link should be stashed somewhere
-  				getRequest(data,url+uri+arg); //TEST
+  				getRequest(data,url+uri+arg);
   			} else if(arg === 'push') {
   			  data = { 'branch' : "master"}; //branch should be arg
-  				postRequest(data,url+uri+arg); //TEST
+  				postRequest(data,url+uri+arg);
   			} else if(arg === 'commit') {
   			  var flag = args[1] || '';
   			  var message = args[2] || '';
@@ -106,7 +106,7 @@
   			    response = "Please enter a commit message [git commit -m {message}] ";
   			  }else{
   			    data = { 'message' : message};
-  				  postRequest(data, url+uri+arg); //TEST
+  				  postRequest(data, url+uri+arg);
   			  }
   			}
   			setTimeout(function(){
@@ -154,11 +154,11 @@
         dataType: 'json',
         data: JSON.stringify(requestData),
         success: function(responseData){
-          console.log(responseData.message);
+          //console.log(responseData.message);
           response = responseData.message;
         },
         error: function(xhr,error){
-          console.log("Error - "+xhr.responseText);
+          //console.log("Error - "+xhr.responseText);
           return xhr.responseText;
         },
         complete: function(){
@@ -175,11 +175,11 @@
         dataType: 'json',
         data: JSON.stringify(requestData),
         success: function(responseData){
-          console.log(responseData.message);
+          //console.log(responseData.message);
           response = responseData.message;
         },
         error: function(xhr,error){
-          console.log("Error - "+xhr.responseText);
+          //console.log("Error - "+xhr.responseText);
           response = xhr.responseText;
         },
         complete: function(){
