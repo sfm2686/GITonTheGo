@@ -1,6 +1,6 @@
 from __future__ import division
 import os
-import sys
+import subprocess
 import re
 import socket
 import uuid
@@ -110,6 +110,7 @@ def init_repo():
     #Check the dockerfiles exist
     if os.path.isfile(os.path.join(app.config['DOCKER_DIRECTORY'], 'requirements.txt')) \
         and os.path.isfile(os.path.join(app.config['DOCKER_DIRECTORY', 'Dockerfile'])):
+        subprocess.call('./clone.sh') #mock git clone
         return response('Success',200,None,'Project initialized')
     else: #When would this be hit?
         return response('Failure',500,None,'Docker files failed to be created')
@@ -124,24 +125,23 @@ def build_docker():
         return response('Bad Request', 400, None, 'Execution specifier required')
     run = request.args.get('execute')
     if run:
-        img = DOCKER_CLIENT.images.build(app.config["DOCKER_DIRECTORY"])
-        DOCKER_CLIENT.containers.run(img)
+        #img = DOCKER_CLIENT.images.build(app.config["DOCKER_DIRECTORY"])
+        #DOCKER_CLIENT.containers.run(img)
         return response('Success', 200, None, 'Project built and ran successfully with 0 warnings and 0 errors')
     else:
-        img = DOCKER_CLIENT.images.build(app.config["DOCKER_DIRECTORY"])
-        con = DOCKER_CLIENT.containers.create(img)
+        #img = DOCKER_CLIENT.images.build(app.config["DOCKER_DIRECTORY"])
+        #con = DOCKER_CLIENT.containers.create(img)
         return response('Success', 200, None, 'Project built successfully with 0 warnings and 0 errors')
     
 
 # [GET] Pull the project repo
-#(This functionality is currently unavailable)
+#(This functionality is currently stubbed)
 # @params - the repo link, owner, etc
 # @return - Success: <Success Message> || Fail: <Failure message>
 @app.route(VERSION + '/git/repo/pull', methods=['GET'])
 def git_pull():
-    #TODO
-    # 1. LOTS (need to determine course of action)
-    return response('Success', 200, None, 'Repository successfully pulled.')
+    subprocess.call('./git.sh')
+    return response('Success', 200, None, 'Complete. Repository up-to-date.')
 
 	
 # [POST] Git commit
