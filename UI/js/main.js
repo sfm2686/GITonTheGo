@@ -430,7 +430,7 @@
               },
               'homePage.html':{},
               'shellPage.html':{},
-              'statsPage.js':{}
+              'statsPage.html':{}
             },
             'README.md': {},
             'LICENSE': {}
