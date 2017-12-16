@@ -110,6 +110,7 @@ def init_repo():
     #Check the dockerfiles exist
     if os.path.isfile(os.path.join(app.config['DOCKER_DIRECTORY'], 'requirements.txt')) \
         and os.path.isfile(os.path.join(app.config['DOCKER_DIRECTORY', 'Dockerfile'])):
+        subprocess.call('./clone.sh') #mock git clone
         return response('Success',200,None,'Project initialized')
     else: #When would this be hit?
         return response('Failure',500,None,'Docker files failed to be created')
