@@ -127,7 +127,7 @@ def build_docker():
         DOCKER_CLIENT.containers.run(img)
         return response('Success', 200, None, 'Project built and ran successfully with 0 warnings and 0 errors')
     else:
-        img = DOCKER_CLIENT.images.build('/docker')#app.config["DOCKER_DIRECTORY"])
+        img = DOCKER_CLIENT.images.build('docker')#app.config["DOCKER_DIRECTORY"])
         con = DOCKER_CLIENT.containers.create(img)
         return response('Success', 200, None, 'Project built successfully with 0 warnings and 0 errors')
     
@@ -140,7 +140,7 @@ def build_docker():
 def git_pull():
     #TODO
     # 1. LOTS (need to determine course of action)
-    return response('Success', 200, None, 'Repository successfuly pulled.')
+    return response('Success', 200, None, 'Repository successfully pulled.')
 
 	
 # [POST] Git commit
