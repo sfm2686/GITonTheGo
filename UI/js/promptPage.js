@@ -122,11 +122,13 @@ function tryit() {
 		data: JSON.stringify(data),
 		contentType: 'application/json',
 		type: 'POST',
-		success: function() {
+		success: function(response) {
 			console.log("success");
+			console.log(response);
 		},
-		error: function() {
+		error: function(response) {
 			console.log("error");
+			console.log(response);
 		}
 	});
 }
