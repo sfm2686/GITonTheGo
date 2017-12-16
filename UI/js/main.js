@@ -397,7 +397,45 @@
             messages: {}
           }
         },
-        git: { }
+        'GIT-PROJECT': {
+          GITonTheGo: {
+            API: {
+              'Dockerfile':{},
+              'gotg-api.py':{},
+              'requirements.txt':{}
+            },
+            UI: {
+              css: {
+                'bootstrap.min.css':{}
+              },
+              fonts: {
+                'glyphicons-halflings-regular.eot':{},
+                'glyphicons-halflings-regular.svg':{},
+                'glyphicons-halflings-regular.tff':{},
+                'glyphicons-halflings-regular.woff':{},
+                'glyphicons-halflings-regular.woff2':{}
+              },
+              js:{
+                'bootstrap.min.js':{},
+                'history.js':{},
+                'input.js':{},
+                'killring.js':{},
+                'main.js':{},
+                'pathhandler.js':{},
+                'promptPage.js':{},
+                'readline.js':{},
+                'shell.js':{},
+                'shellPage.js':{},
+                'statsPage.js':{}
+              },
+              'homePage.html':{},
+              'shellPage.html':{},
+              'statsPage.js':{}
+            },
+            'README.md': {},
+            'LICENSE': {}
+          }
+        }
       };
 
       function build(parent, node) {
