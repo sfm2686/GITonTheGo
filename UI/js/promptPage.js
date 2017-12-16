@@ -103,10 +103,9 @@ function submitted() {
 
 function tryit() {
 	// flask api calls for 'try it', pre-built project here
-  
-  //document.getElementById("lang").value = "Python";
-  //document.getElementById("version").options[document.getElementById("version").selectedIndex = "2.7";
-  //document.getElementById("framework").value = "Flask";
+  document.getElementById("lang").selectedIndex = 1;
+  document.getElementById("version").selectedIndex = 1;
+  document.getElementById("framework").selectedIndex = 1;
   document.getElementById("libraries").value = "Redis,Werkzeug,Docker";
   document.getElementById("repoLink").value = "https://github.com/sfm2686/GITonTheGo";
 
