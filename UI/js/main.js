@@ -333,7 +333,7 @@
           x11: {}
         },
         home: {
-          bob: {
+          chronos: {
             video: {
               'firefly.m4v': {}
             },
@@ -344,9 +344,19 @@
               'Better Off Ted': {
                 's1e1.m4v': {}
               }
+            },
+            src: {
+              swen: {},
+              csci: {},
+              GITonTheGo: {
+                API: {},
+                UI: {},
+                'README.md': {},
+                'LICENSE': {}
+              }
             }
           },
-          jane: {}
+          guest: {}
         },
         lib: {},
         'lost+found': {},
@@ -386,7 +396,8 @@
             cron: {},
             messages: {}
           }
-        }
+        },
+        git: { }
       };
 
       function build(parent, node) {

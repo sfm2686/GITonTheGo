@@ -111,7 +111,7 @@ def init_repo():
         and os.path.isfile(os.path.join(app.config['DOCKER_DIRECTORY', 'Dockerfile'])):
         return response('Success',200,None,'Project initialized')
     else: #When would this be hit?
-        return response('Success',204,None,'Something')
+        return response('Failure',500,None,'Docker files failed to be created')
 
     
 # [GET] Build the project in the docker container
@@ -127,7 +127,7 @@ def build_docker():
         DOCKER_CLIENT.containers.run(img)
         return response('Success', 200, None, 'Project built and ran successfully with 0 warnings and 0 errors')
     else:
-        img = DOCKER_CLIENT.images.build(app.config["DOCKER_DIRECTORY"])
+        img = DOCKER_CLIENT.images.build('/docker')#app.config["DOCKER_DIRECTORY"])
         con = DOCKER_CLIENT.containers.create(img)
         return response('Success', 200, None, 'Project built successfully with 0 warnings and 0 errors')
     
@@ -140,7 +140,7 @@ def build_docker():
 def git_pull():
     #TODO
     # 1. LOTS (need to determine course of action)
-    return response('Success', 200, None, 'Git project successfuly pulled')
+    return response('Success', 200, None, 'Repository successfuly pulled.')
 
 	
 # [POST] Git commit
@@ -154,7 +154,7 @@ def git_commit():
     else:
         message = request.args.get('message')
         #return response('Success', 200, None, '[Stub] Commit success: ' + message)
-        return response('Success', 200, None, 'Sorry! <commit> functionality is unavailble at this time')
+        return response('Success', 200, None, 'Sorry! [commit] functionality is unavailble at this time')
 
 
 # [GET] Git push
@@ -165,7 +165,7 @@ def git_commit():
 def git_push():
     # Stubbed response
     #return response('Success', 200, None, '[Stub] Project successfully pushed')
-    return response('Success', 200, None, 'Sorry! <push> functionality is unavailble at this time')
+    return response('Success', 200, None, 'Sorry! [push] functionality is unavailble at this time')
     
 
 # [GET] Stats
