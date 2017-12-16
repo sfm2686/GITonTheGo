@@ -30,6 +30,8 @@ app.config['CSS_DIRECTORY'] = CSS_DIRECTORY
 app.config['UI_DIRECTORY'] = UI_DIRECTORY
 
 DOCKER_CLIENT = docker.from_env()
+
+
 ###########################################
 ## Helper FXs
 ###########################################
@@ -40,12 +42,14 @@ def response(status,code,data,message):
                 data=data,
                 message=message)
 
+#Build requirements.txt file
 def init_requirements(framework,libraries):
     f = open("docker/requirements.txt","w+")
     f.write(framework+"\r\n")
     for lib in libraries:
         f.write(lib+"\r\n")
-        
+
+#Build Dockerfile
 def init_dockerfile(language,version,repo):
     f = open("docker/Dockerfile","w+")
     f.write("FROM "+language+":"+version+"\r\n") #runtime
@@ -99,7 +103,7 @@ def init_repo():
     if data["framework"] == "-":
         data["framework"] = ""
     REPO = data["repoLink"]
-    #Stubbed until git functionality is available
+     #Stubbed until git functionality is available
     init_requirements(data["framework"], data["libraries"])
     init_dockerfile(data["language"], data["version"], data["repoLink"])
     #Check the dockerfiles exist
@@ -119,18 +123,19 @@ def build_docker():
         return response('Bad Request', 400, None, 'Execution specifier required')
     run = request.args.get('execute')
     if run:
-        img = DOCKER_CLIENT.images.build(app.config["DOCKER-DIRECTORY"])
+        img = DOCKER_CLIENT.images.build(app.config["DOCKER_DIRECTORY"])
         DOCKER_CLIENT.containers.run(img)
         return response('Success', 200, None, 'Project built and ran successfully with 0 warnings and 0 errors')
     else:
-        img = DOCKER_CLIENT.images.build(app.config["DOCKER-DIRECTORY"])
+        img = DOCKER_CLIENT.images.build(app.config["DOCKER_DIRECTORY"])
         con = DOCKER_CLIENT.containers.create(img)
         return response('Success', 200, None, 'Project built successfully with 0 warnings and 0 errors')
     
 
 # [GET] Pull the project repo
-# @params - the repo link, owner, etc (TBD)
-# @return - Success: true || Fail: false
+#(This functionality is currently unavailable)
+# @params - the repo link, owner, etc
+# @return - Success: <Success Message> || Fail: <Failure message>
 @app.route(VERSION + '/git/repo/pull', methods=['GET'])
 def git_pull():
     #TODO
@@ -139,26 +144,28 @@ def git_pull():
 
 	
 # [POST] Git commit
-# (This functionality shall be mocked out due to lack of text editing capabilities)
+# (This functionality is unavailable due to lack of text editing capabilities)
 # @params - the commit message
-# @return - Success: 'Some  mesage' | Fail: 'Failed to commit'
+# @return - Success: <Success Message> || Fail: <Failure message>
 @app.route(VERSION + '/git/repo/commit', methods=['POST'])
 def git_commit():
     if request.args.get('message') == None:
         return response('Bad Request', 403, None, 'Aborting commit due to empty commit message.')
     else:
         message = request.args.get('message')
-        return response('Success', 200, None, '[Stub] Commit success: ' + message)
+        #return response('Success', 200, None, '[Stub] Commit success: ' + message)
+        return response('Success', 200, None, 'Sorry! <commit> functionality is unavailble at this time')
 
 
 # [GET] Git push
-# (This functionality shall be mocked out due to lack of text editing capabilities)
+# (This functionality is unavailable due to lack of text editing capabilities)
 # @params - branch name
-# @return - Success: true || Fail: false
+# @return - Success: <Success Message> || Fail: <Failure message>
 @app.route(VERSION + '/git/repo/push', methods=['POST'])
 def git_push():
     # Stubbed response
-    return response('Success', 200, None, 'Project successfully pushed')
+    #return response('Success', 200, None, '[Stub] Project successfully pushed')
+    return response('Success', 200, None, 'Sorry! <push> functionality is unavailble at this time')
     
 
 # [GET] Stats

@@ -98,8 +98,35 @@ function submitted() {
 			console.log("error");
 		}
 	});
+	alert("Functionality is still in Alpha stage(s). Unexpected behavior may be experienced.\n Click 'Try It' for Demo.")
 }
 
 function tryit() {
 	// flask api calls for 'try it', pre-built project here
+  
+  //document.getElementById("lang").value = "Python";
+  //document.getElementById("version").options[document.getElementById("version").selectedIndex = "2.7";
+  //document.getElementById("framework").value = "Flask";
+  document.getElementById("libraries").value = "Redis,Werkzeug,Docker";
+  document.getElementById("repoLink").value = "https://github.com/sfm2686/GITonTheGo";
+
+	var data = { };
+	data["language"] = "Python";
+	data["version"] = "2.7";
+	data["framework"] = "Flask";
+	data["libraries"] = ["Redis","Werkzeug","Docker"];
+	data["repoLink"] = "https://github.com/sfm2686/GITonTheGo";
+
+	$.ajax({
+		url: "http://ec2-54-165-178-189.compute-1.amazonaws.com/api/v1/init",
+		data: JSON.stringify(data),
+		contentType: 'application/json',
+		type: 'POST',
+		success: function() {
+			console.log("success");
+		},
+		error: function() {
+			console.log("error");
+		}
+	});
 }
